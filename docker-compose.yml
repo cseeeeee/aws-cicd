@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  nginx:
+    image: asia-northeast3-docker.pkg.dev/my-bigquery-project-417614/my-docker-cicd/nginx:0.0.1
+    # build: ./nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+    ports:
+      - '81:80'
+    depends_on:
+      - api
+      - web
+  web:
+    image: asia-northeast3-docker.pkg.dev/my-bigquery-project-417614/my-docker-cicd/frontend:0.0.1
+    # build:
+    #   context: ./frontend
+    #   dockerfile: Dockerfile
+    depends_on:
+      - api
+    ports:
+      - '8080:80'
+
+  api:
+    image: asia-northeast3-docker.pkg.dev/my-bigquery-project-417614/my-docker-cicd/backend:0.0.1
+    # build:
+    #   context: ./backend
+    #   dockerfile: Dockerfile
+    ports:
+      - '8000:8000'
